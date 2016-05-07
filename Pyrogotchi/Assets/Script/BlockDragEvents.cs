@@ -9,6 +9,8 @@ public class BlockDragEvents : MonoBehaviour {
 
 	private Rigidbody2D rb2d;
 	private SnapBack sb;
+	private GameObject fire;
+	private bool overTheFire = false;
 
 	void Start() {
 		//I set the kinematic thing to true by default so that pulling an object over 
@@ -16,7 +18,10 @@ public class BlockDragEvents : MonoBehaviour {
 		rb2d = transform.GetComponent<Rigidbody2D> ();
 		rb2d.isKinematic = true;
 		sb = transform.GetComponent<SnapBack> ();
+
+		fire = GameObject.Find ("Fire");
 	}
+
 
     //This event is called when you first pick up this GameObject
 	void OnStartDrag()
@@ -26,6 +31,7 @@ public class BlockDragEvents : MonoBehaviour {
 		rb2d.isKinematic = false;
     }
 
+
     //This event is called when you drop this GameObject
     void OnStopDrag()
     {
@@ -33,7 +39,37 @@ public class BlockDragEvents : MonoBehaviour {
 		//Make Kinematic?
 		rb2d.isKinematic = true;
 		transform.position = sb.startPosition;
+
+		CheckIfInTheFire ();
+
     }
+
+
+	private void CheckIfInTheFire()
+	{
+		if(overTheFire)
+		{
+			gameObject.GetComponent<BurnableObject> ().StartBurning ();
+		}
+	}
+
+	void OnCollisionEnter2D (Collision2D col)
+	{
+		if(col.gameObject.name == "Fire")
+		{
+			overTheFire = true;
+		}
+	}
+
+
+	void OnCollisionExit2D (Collision2D col)
+	{
+		if(col.gameObject.name == "Fire")
+		{
+			overTheFire = false;
+		}
+	}
+
 
     //You can use a bool to indicate whether the GameObject is currently being dragged.
     void Update()

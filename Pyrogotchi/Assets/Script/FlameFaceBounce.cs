@@ -6,9 +6,9 @@ public class FlameFaceBounce : MonoBehaviour {
 
 
 	void Start () {
-		//Bounce ();
+
 		BounceY ();
-		//Move ();
+
 	}
 
 

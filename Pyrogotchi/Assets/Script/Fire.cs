@@ -47,7 +47,8 @@ public class Fire : MonoBehaviour {
 	private void AdjustSize()
 	{
 		float compiledDecayRate = decayRate * 0.1f;
-		transform.DOScale (new Vector2 (transform.localScale.x + compiledDecayRate, transform.localScale.y + compiledDecayRate), 0.45f).SetEase (Ease.InOutExpo);
+		transform.DOScaleX (transform.localScale.x + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
+		transform.DOScaleY (transform.localScale.y + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
 	}
 
 

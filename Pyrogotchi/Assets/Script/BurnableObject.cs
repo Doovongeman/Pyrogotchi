@@ -22,6 +22,7 @@ public class BurnableObject : MonoBehaviour {
 	public void StartBurning()
 	{
 		StartCoroutine(Burn ());
+		print ("IM BURNING");
 	}
 
 

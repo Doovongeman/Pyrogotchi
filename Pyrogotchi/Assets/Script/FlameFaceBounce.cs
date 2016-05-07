@@ -8,7 +8,7 @@ public class FlameFaceBounce : MonoBehaviour {
 	void Start () {
 		//Bounce ();
 		BounceY ();
-		Move ();
+		//Move ();
 	}
 
 
@@ -19,12 +19,12 @@ public class FlameFaceBounce : MonoBehaviour {
 
 	private void BounceY()
 	{
-		transform.DOScaleY (Random.Range (0.9f, 1.1f), Random.Range (0.15f, 0.6f)).OnComplete (BounceY).SetEase(Ease.Flash);
+		transform.DOScaleY (Random.Range (1f, 1.2f), Random.Range (0.15f, 0.6f)).OnComplete (BounceY).SetEase(Ease.Flash);
 	}
 
 	private void Move()
 	{
-		transform.DOMoveX (Random.Range (transform.position.x - 0.1f, transform.position.x + 0.1f), Random.Range (2f, 3f)).OnComplete (Move).SetEase(Ease.InOutQuad);
+		transform.DOMoveX (Random.Range (transform.position.x - 0.04f, transform.position.x + 0.04f), Random.Range (2f, 3f)).OnComplete (Move).SetEase(Ease.InOutQuad);
 	}
 
 

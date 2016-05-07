@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class Fire : MonoBehaviour {
 
 	public float decayRate = -0.1f;
-
 
 
 
@@ -24,9 +24,9 @@ public class Fire : MonoBehaviour {
 	IEnumerator UpdateDecayRate()
 	{
 		while(true) 
-		{ 
+		{
 			AdjustSize ();
-			yield return new WaitForSeconds(1);
+			yield return new WaitForSeconds(0.5f);
 		}
 	}
 
@@ -46,7 +46,8 @@ public class Fire : MonoBehaviour {
 
 	private void AdjustSize()
 	{
-		//print (decayRate);
+		float compiledDecayRate = decayRate * 0.1f;
+		transform.DOScale (new Vector2 (transform.localScale.x + compiledDecayRate, transform.localScale.y + compiledDecayRate), 0.45f).SetEase (Ease.InOutExpo);
 	}
 
 

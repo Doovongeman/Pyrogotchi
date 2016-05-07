@@ -15,6 +15,12 @@ public class BurnableObject : MonoBehaviour {
 
 	void Start () {
 		fire = GameObject.Find ("Fire");
+	}
+
+
+
+	public void StartBurning()
+	{
 		StartCoroutine(Burn ());
 	}
 

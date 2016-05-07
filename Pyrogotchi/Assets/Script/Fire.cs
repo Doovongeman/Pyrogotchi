@@ -17,7 +17,7 @@ public class Fire : MonoBehaviour {
 
 	void Update()
 	{
-		AdjustSize ();
+		
 	}
 
 
@@ -25,7 +25,7 @@ public class Fire : MonoBehaviour {
 	{
 		while(true) 
 		{ 
-			//AdjustSize ();
+			AdjustSize ();
 			yield return new WaitForSeconds(1);
 		}
 	}
@@ -46,7 +46,7 @@ public class Fire : MonoBehaviour {
 
 	private void AdjustSize()
 	{
-		print (decayRate);
+		//print (decayRate);
 	}
 
 

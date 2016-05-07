@@ -4,13 +4,17 @@ using DG.Tweening;
 
 public class Fire : MonoBehaviour {
 
-	public float decayRate = -0.1f;
+	public float decayRate;
+	public float size;
+	public bool firstObjectBurned = false;
 
 	private bool shouldDecay = true;
 
 
 	void Start()
 	{
+		decayRate = -0.5f;
+		size = GetComponent<Collider2D> ().bounds.size.y;
 		StartCoroutine (UpdateDecayRate());
 	}
 
@@ -18,14 +22,18 @@ public class Fire : MonoBehaviour {
 
 	void Update()
 	{
-		
+		if (transform.localScale.x <= 0.1f) {
+			transform.localScale = new Vector2 (0.1f, 0.1f);
+			shouldDecay = false;
+			FireDied ();
+		}
 	}
 
 
 	IEnumerator UpdateDecayRate()
 	{
 		while(shouldDecay) 
-		{
+		{			
 			AdjustSize ();
 			yield return new WaitForSeconds(0.5f);
 		}
@@ -35,6 +43,10 @@ public class Fire : MonoBehaviour {
 
 	public void StartGrowing(float contribution)
 	{
+		if(! firstObjectBurned)
+		{
+			firstObjectBurned = true;
+		}
 		decayRate += contribution;
 	}
 
@@ -47,14 +59,12 @@ public class Fire : MonoBehaviour {
 
 	private void AdjustSize()
 	{
-		float compiledDecayRate = decayRate * 0.1f;
-		transform.DOScaleX (transform.localScale.x + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
-		transform.DOScaleY (transform.localScale.y + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
-
-		if(transform.localScale.x <= 0.1f)
+		if (firstObjectBurned)
 		{
-			shouldDecay = false;
-			FireDied ();
+			float compiledDecayRate = decayRate * 0.1f;
+			transform.DOScaleX (transform.localScale.x + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
+			transform.DOScaleY (transform.localScale.y + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
+
 		}
 
 	}
@@ -63,6 +73,13 @@ public class Fire : MonoBehaviour {
 	private void FireDied()
 	{
 		print ("GAME OVER");
+	}
+
+
+	public float GetSize()
+	{
+		size = GetComponent<Collider2D> ().bounds.size.y;
+		return size;
 	}
 
 

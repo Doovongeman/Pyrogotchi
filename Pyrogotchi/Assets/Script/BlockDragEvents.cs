@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class BlockDragEvents : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class BlockDragEvents : MonoBehaviour {
 
 	private Rigidbody2D rb2d;
 	private SnapBack sb;
+	private BurnableObject burnableObject;
 	private GameObject fire;
 	private bool overTheFire = false;
 
@@ -18,40 +20,50 @@ public class BlockDragEvents : MonoBehaviour {
 		rb2d = transform.GetComponent<Rigidbody2D> ();
 		rb2d.isKinematic = true;
 		sb = transform.GetComponent<SnapBack> ();
+		burnableObject = transform.GetComponent<BurnableObject> ();
 
 		fire = GameObject.Find ("Fire");
 	}
 
 
-    //This event is called when you first pick up this GameObject
 	void OnStartDrag()
     {
-        isDragging = true;
-		//Make Kinematic
-		rb2d.isKinematic = false;
+		if (! burnableObject.burning)
+		{
+			isDragging = true;
+			rb2d.isKinematic = false;
+			transform.localScale = new Vector2 (1, 1);
+			bounce (1f);
+		}
     }
 
 
-    //This event is called when you drop this GameObject
     void OnStopDrag()
     {
-        isDragging = false;
-		//Make Kinematic?
-		rb2d.isKinematic = true;
-		transform.position = sb.startPosition;
+		if (!burnableObject.burning)
+		{
+			isDragging = false;
+			rb2d.isKinematic = true;
 
-		CheckIfInTheFire ();
+			CheckIfInTheFire ();
+		}
 
     }
 
 
 	private void CheckIfInTheFire()
 	{
-		if(overTheFire)
+		if (overTheFire)
 		{
-			gameObject.GetComponent<BurnableObject> ().StartBurning ();
+			burnableObject.StartBurning ();
+			GoToPosition(fire.transform.position, 0.2f);
+			bounce (1.2f);
+		} else
+		{
+			GoToPosition(sb.startPosition, 0.2f);
 		}
 	}
+
 
 	void OnCollisionEnter2D (Collision2D col)
 	{
@@ -79,4 +91,19 @@ public class BlockDragEvents : MonoBehaviour {
             //Do stuff while grabbed
         }
     }
+
+
+	public void bounce(float amount)
+	{
+		transform.DOScaleY (1.3f * amount, 0.5f).SetEase (Ease.OutElastic).From ();
+		transform.DOScaleX (0.8f * amount, 0.5f).SetEase (Ease.OutElastic).From ();
+	}
+
+
+	private void GoToPosition(Vector2 target, float time)
+	{
+		transform.DOMove (target, time).SetEase(Ease.OutExpo);
+	}
+
+
 }

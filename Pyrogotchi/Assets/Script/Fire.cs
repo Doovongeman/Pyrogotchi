@@ -6,6 +6,7 @@ public class Fire : MonoBehaviour {
 
 	public float decayRate = -0.1f;
 
+	private bool shouldDecay = true;
 
 
 	void Start()
@@ -23,7 +24,7 @@ public class Fire : MonoBehaviour {
 
 	IEnumerator UpdateDecayRate()
 	{
-		while(true) 
+		while(shouldDecay) 
 		{
 			AdjustSize ();
 			yield return new WaitForSeconds(0.5f);
@@ -49,7 +50,21 @@ public class Fire : MonoBehaviour {
 		float compiledDecayRate = decayRate * 0.1f;
 		transform.DOScaleX (transform.localScale.x + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
 		transform.DOScaleY (transform.localScale.y + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
+
+		if(transform.localScale.x <= 0.1f)
+		{
+			shouldDecay = false;
+			FireDied ();
+		}
+
 	}
+
+
+	private void FireDied()
+	{
+		print ("GAME OVER");
+	}
+
 
 
 

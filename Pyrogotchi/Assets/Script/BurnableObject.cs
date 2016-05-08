@@ -26,7 +26,7 @@ public class BurnableObject : MonoBehaviour {
 		lifebar = GameObject.Find ("LifeBar");
 
 		size = GetComponentInChildren<Renderer> ().bounds.size.y;
-		outline = gameObject.transform.GetChild(2);
+		//outline = gameObject.transform.GetChild(2);
 		regularShape = gameObject.transform.GetChild(0);
 		bde = GetComponent<BlockDragEvents> ();
 		contributeBackup = contribute;
@@ -58,11 +58,11 @@ public class BurnableObject : MonoBehaviour {
 
 		//switch to orange business
 		//move orange business in front of fire behind outline
-		outline.gameObject.SetActive(false);
+		//outline.gameObject.SetActive(false);
 		//switch to orange frame
-		regularShape.gameObject.SetActive(false);
+		//regularShape.gameObject.SetActive(false);
 		//move in front
-		transform.position = new Vector3(transform.position.x, transform.position.y, bde.infrontofFire);
+		//transform.position = new Vector3(transform.position.x, transform.position.y, bde.infrontofFire);
 		fire.GetComponent<Fire> ().currentlyBurningSomething = false;
 		SustainShrink (sustainTimer);
 		fire.GetComponent<Fire>().StartGrowing(sustain * 0.5f);
@@ -112,6 +112,7 @@ public class BurnableObject : MonoBehaviour {
 
 	private void SustainShrink(float time)
 	{
+		print ("sustain for " + time);
 		transform.DOScaleX (0, time).OnComplete(Die);
 		transform.DOScaleY (0, time);
 	}

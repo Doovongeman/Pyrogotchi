@@ -10,6 +10,7 @@ public class Fire : MonoBehaviour {
 	public bool currentlyBurningSomething = false;
 
 	private bool shouldDecay = true;
+	private GameObject happinessbar;
 
 
 	void Start()
@@ -17,6 +18,7 @@ public class Fire : MonoBehaviour {
 		decayRate = -0.5f;
 		size = GetComponent<Collider2D> ().bounds.size.y;
 		StartCoroutine (UpdateDecayRate());
+		happinessbar = GameObject.Find ("HappinessBar");
 	}
 
 
@@ -65,7 +67,7 @@ public class Fire : MonoBehaviour {
 			float compiledDecayRate = decayRate * 0.1f;
 			transform.DOScaleX (transform.localScale.x + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
 			transform.DOScaleY (transform.localScale.y + compiledDecayRate, 0.45f).SetEase (Ease.InOutExpo);
-
+			happinessbar.GetComponent<HappinessBar> ().UpdateHappiness (transform.localScale.y);
 		}
 
 	}

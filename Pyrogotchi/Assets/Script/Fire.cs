@@ -22,6 +22,7 @@ public class Fire : MonoBehaviour {
 	private GameObject face_gimme;
 	private GameObject face_bad;
 	private GameObject heat;
+	private GameObject negFeedback;
 	private float originalDecayRate;
 
 	void Start()
@@ -43,6 +44,8 @@ public class Fire : MonoBehaviour {
 		healthbar = GameObject.Find ("HealthBar"); 
 		heat = GameObject.Find("fx_heat");
 		heat.gameObject.SetActive(false);
+
+		negFeedback = GameObject.Find("NegativeFeedback");
 
 		decayRate = -0.5f;
 		originalDecayRate = decayRate;
@@ -76,6 +79,7 @@ public class Fire : MonoBehaviour {
 
 	public void StartGrowing(float contribution)
 	{
+		
 		if(! firstObjectBurned)
 		{
 			firstObjectBurned = true;

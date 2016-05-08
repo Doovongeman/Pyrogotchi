@@ -21,12 +21,14 @@ public class BurnableObject : MonoBehaviour {
 	private Transform outline;
 	private Transform regularShape;
 	private BlockDragEvents bde;
+	private GameObject negFeedback;
 
 
 	void Start () {
 		fire = GameObject.Find ("Fire");
 		lifebar = GameObject.Find ("LifeBar");
 		healthbar = GameObject.Find ("HealthBar");
+		negFeedback = GameObject.Find("NegativeFeedback");
 
 		size = GetComponentInChildren<Renderer> ().bounds.size.y;
 		//outline = gameObject.transform.GetChild(2);
@@ -54,6 +56,11 @@ public class BurnableObject : MonoBehaviour {
 		lifebar.GetComponent<LifeBar> ().FillLifebar (contributeTimer);
 
 		healthbar.GetComponent<HealthBar> ().AddToxicity (toxicity);
+		if (toxicity > 0) {
+			//fire.GetComponent<Fire>().ChangeFace("fire_face_bad");
+			negFeedback.GetComponent<NegativeFeedback> ().Pop ("toxic fumes!");
+		}
+
 		fire.GetComponent<Fire>().StartGrowing(contribute * 0.5f);
 		fire.GetComponent<Fire> ().currentlyBurningSomething = true;
 		yield return new WaitForSeconds(contributeTimer);
@@ -85,20 +92,25 @@ public class BurnableObject : MonoBehaviour {
 
 	private void CheckIfTooBig()
 	{
-		if(size > fire.GetComponent<Fire>().GetSize() + fire.GetComponent<Fire>().GetSize() * 0.2f)
-		{
+		if (size > fire.GetComponent<Fire> ().GetSize () + fire.GetComponent<Fire> ().GetSize () * 0.2f) {
 			contributeBackup = contribute;
 
-			float sizeDifference = size - fire.GetComponent<Fire>().size;
+			float sizeDifference = size - fire.GetComponent<Fire> ().size;
 			float oversizePercentage = sizeDifference / fire.GetComponent<Fire> ().size * 100;
 
-			if(oversizePercentage > 200)
-			{
+			if (oversizePercentage > 200) {
 				oversizePercentage = 200;
 			}
 
 			float penalty = contribute * (oversizePercentage / 100);
 			contribute -= penalty;
+
+			negFeedback.GetComponent<NegativeFeedback> ().Pop ("too big!");
+		} else {
+			if(contribute < 0)
+			{
+				negFeedback.GetComponent<NegativeFeedback>().Pop("too wet!");
+			}
 		}
 	}
 

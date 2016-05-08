@@ -13,7 +13,9 @@ public class HappinessBar : MonoBehaviour {
 	private GameObject face2;
 	private GameObject face3;
 	private GameObject scoreText;
-
+	private float face1percent;
+	private float face2percent;
+	private float face3percent;
 
 
 	void Start () {
@@ -24,6 +26,9 @@ public class HappinessBar : MonoBehaviour {
 		face3 = GameObject.Find ("happy3");
 		scoreText = GameObject.Find ("CurrentScore");
 		score = 0;
+		face1percent = 0.05f;
+		face2percent = 0.30f;
+		face3percent = 0.50f;
 	}
 
 
@@ -41,22 +46,22 @@ public class HappinessBar : MonoBehaviour {
 		score += Mathf.RoundToInt(percentage * 100);
 		scoreText.GetComponent<Text> ().text = score+"";
 
-		if (percentage < 0.30) {
+		if (percentage < face1percent) {
 			face0.gameObject.SetActive (true);
 			face1.gameObject.SetActive (false);
 			face2.gameObject.SetActive (false);
 			face3.gameObject.SetActive (false);
-		} else if(percentage > 0.30 && percentage < 0.60 ){
+		} else if(percentage > face1percent && percentage < face2percent ){
 			face0.gameObject.SetActive (false);
 			face1.gameObject.SetActive (true);
 			face2.gameObject.SetActive (false);
 			face3.gameObject.SetActive (false);
-		} else if(percentage > 0.60 && percentage < 0.90 ){
+		} else if(percentage > face2percent && percentage < face3percent ){
 			face0.gameObject.SetActive (false);
 			face1.gameObject.SetActive (false);
 			face2.gameObject.SetActive (true);
 			face3.gameObject.SetActive (false);
-		} else if(percentage > 0.90){
+		} else if(percentage > face3percent){
 			face0.gameObject.SetActive (false);
 			face1.gameObject.SetActive (false);
 			face2.gameObject.SetActive (false);

@@ -18,6 +18,7 @@ public class BurnableObject : MonoBehaviour {
 	private float contributeBackup;
 	private Transform outline;
 	private Transform regularShape;
+	private Transform solidFill;
 	private BlockDragEvents bde;
 
 
@@ -27,6 +28,7 @@ public class BurnableObject : MonoBehaviour {
 
 		size = GetComponentInChildren<Renderer> ().bounds.size.y;
 		outline = gameObject.transform.GetChild(2);
+		solidFill = gameObject.transform.GetChild (1);
 		regularShape = gameObject.transform.GetChild(0);
 		bde = GetComponent<BlockDragEvents> ();
 		contributeBackup = contribute;
@@ -59,8 +61,8 @@ public class BurnableObject : MonoBehaviour {
 		//switch to orange business
 		//move orange business in front of fire behind outline
 		outline.gameObject.SetActive(false);
-		//switch to orange frame
 		regularShape.gameObject.SetActive(false);
+		//solidFill.gameObject.SetActive (true);
 		//move in front
 		transform.position = new Vector3(transform.position.x, transform.position.y, bde.infrontofFire);
 		fire.GetComponent<Fire> ().currentlyBurningSomething = false;

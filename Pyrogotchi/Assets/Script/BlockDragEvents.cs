@@ -25,7 +25,7 @@ public class BlockDragEvents : MonoBehaviour {
 		rb2d.isKinematic = true;
 		sb = transform.GetComponent<SnapBack> ();
 		burnableObject = transform.GetComponent<BurnableObject> ();
-		behindFire = 1.28f;
+		behindFire = 1.14f;//1.28f;
 		infrontofFire = 0.62f;
 
 		fire = GameObject.Find ("Fire");

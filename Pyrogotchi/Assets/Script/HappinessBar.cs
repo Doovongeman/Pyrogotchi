@@ -27,8 +27,8 @@ public class HappinessBar : MonoBehaviour {
 		scoreText = GameObject.Find ("CurrentScore");
 		score = 0;
 		face1percent = 0.05f;
-		face2percent = 0.30f;
-		face3percent = 0.50f;
+		face2percent = 0.15f;
+		face3percent = 0.25f;
 	}
 
 

@@ -41,9 +41,9 @@ public class BlockDragEvents : MonoBehaviour {
 			transform.localScale = new Vector3(1,1,1);
 			bounce (1f);
 		}
-		if (fire.GetComponent<Fire> ().currentlyBurningSomething == true)
+		if (fire.GetComponent<Fire> ().currentlyBurningSomething == false)
 		{
-
+			fire.GetComponent<Fire> ().ChangeFace ("fire_face_gimme");
 		}
     }
 
@@ -55,6 +55,7 @@ public class BlockDragEvents : MonoBehaviour {
 			isDragging = false;
 			rb2d.isKinematic = true;
 			CheckIfInTheFire ();
+
 		}
 
     }
@@ -72,13 +73,17 @@ public class BlockDragEvents : MonoBehaviour {
 		} else
 		{
 			GoToPosition(sb.startPosition, 0.2f);
+			if (fire.GetComponent<Fire> ().currentlyBurningSomething == false)
+			{
+				fire.GetComponent<Fire> ().ChangeFace ("fire_face_normal");
+			}
 		}
 	}
 
 
 	void OnCollisionEnter2D (Collision2D col)
 	{
-		if(col.gameObject.name == "Fire")
+		if(col.gameObject.name == "FireCollision")
 		{
 			overTheFire = true;
 		}
@@ -87,7 +92,7 @@ public class BlockDragEvents : MonoBehaviour {
 
 	void OnCollisionExit2D (Collision2D col)
 	{
-		if(col.gameObject.name == "Fire")
+		if(col.gameObject.name == "FireCollision")
 		{
 			overTheFire = false;
 		}

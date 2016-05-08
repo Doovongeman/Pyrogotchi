@@ -11,24 +11,25 @@ public class BurnableObject : MonoBehaviour {
 	public float sustain;
 	public float sustainTimer;
 	public float size;
+	public float toxicity;
 	public bool burning = false;
 
 	private GameObject fire;
 	private GameObject lifebar;
+	private GameObject healthbar;
 	private float contributeBackup;
 	private Transform outline;
 	private Transform regularShape;
-	private Transform solidFill;
 	private BlockDragEvents bde;
 
 
 	void Start () {
 		fire = GameObject.Find ("Fire");
 		lifebar = GameObject.Find ("LifeBar");
+		healthbar = GameObject.Find ("HealthBar");
 
 		size = GetComponentInChildren<Renderer> ().bounds.size.y;
-		outline = gameObject.transform.GetChild(2);
-		solidFill = gameObject.transform.GetChild (1);
+		//outline = gameObject.transform.GetChild(2);
 		regularShape = gameObject.transform.GetChild(0);
 		bde = GetComponent<BlockDragEvents> ();
 		contributeBackup = contribute;
@@ -52,6 +53,7 @@ public class BurnableObject : MonoBehaviour {
 		lifebar.GetComponent<LifeBar>().ShowLifebar(gameObject);
 		lifebar.GetComponent<LifeBar> ().FillLifebar (contributeTimer);
 
+		healthbar.GetComponent<HealthBar> ().AddToxicity (toxicity);
 		fire.GetComponent<Fire>().StartGrowing(contribute * 0.5f);
 		fire.GetComponent<Fire> ().currentlyBurningSomething = true;
 		yield return new WaitForSeconds(contributeTimer);
@@ -60,16 +62,18 @@ public class BurnableObject : MonoBehaviour {
 
 		//switch to orange business
 		//move orange business in front of fire behind outline
-		outline.gameObject.SetActive(false);
-		regularShape.gameObject.SetActive(false);
-		//solidFill.gameObject.SetActive (true);
+		//outline.gameObject.SetActive(false);
+		//switch to orange frame
+		//regularShape.gameObject.SetActive(false);
 		//move in front
-		transform.position = new Vector3(transform.position.x, transform.position.y, bde.infrontofFire);
+		//transform.position = new Vector3(transform.position.x, transform.position.y, bde.infrontofFire);
+
+		healthbar.GetComponent<HealthBar> ().SubstractToxicity (toxicity);
 		fire.GetComponent<Fire> ().currentlyBurningSomething = false;
-		SustainShrink (sustainTimer);
-		fire.GetComponent<Fire>().StartGrowing(sustain * 0.5f);
+		SustainShrink (sustainTimer + 0.1f);
+		//fire.GetComponent<Fire>().StartGrowing(sustain * 0.5f);
 		yield return new WaitForSeconds(sustainTimer);
-		fire.GetComponent<Fire>().StopGrowing(sustain * 0.5f);
+		//fire.GetComponent<Fire>().StopGrowing(sustain * 0.5f);
 
 		//Die ();
 	}
@@ -114,6 +118,7 @@ public class BurnableObject : MonoBehaviour {
 
 	private void SustainShrink(float time)
 	{
+		print ("sustain for " + time);
 		transform.DOScaleX (0, time).OnComplete(Die);
 		transform.DOScaleY (0, time);
 	}

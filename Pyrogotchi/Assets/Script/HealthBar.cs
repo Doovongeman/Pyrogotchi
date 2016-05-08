@@ -31,7 +31,7 @@ public class HealthBar: MonoBehaviour {
 	{
 		while(true) 
 		{			
-			health += 0.01f;
+			//health += 0.01f;
 			health = Mathf.Clamp (health, 0, 1);
 			health -= toxicityLevel;
 			healthfilling.transform.DOScaleX (Mathf.Clamp (health, 0, 1), 0.45f);

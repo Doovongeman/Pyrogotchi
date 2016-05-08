@@ -1,0 +1,41 @@
+fileFormatVersion: 2
+guid: 805457fd5f8064038b3e45eac1ef6c18
+timeCreated: 1462724481
+licenseType: Free
+NativeFormatImporter:
+  userData: '
+
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    preserveAspectRatio="none" x="0px" y="0px" width="550px" height="400px" viewBox="0
+    0 550 400">
+
+    <defs>
+
+    <g id="Layer49_0_FILL">
+
+    <path fill="#FF6633" stroke="none" d="
+
+    M 366 311.25
+
+    Q 366.3 308.65 366.4 307.85 367.05 303.45 367.05 302 367.05 301.95 367.05 301.9
+    367.05 301.85 367.05 301.8 367.05 299.35 361.25 299.35 355.4 299.35 355.4 301.8
+    355.4 301.85 355.4 301.9 355.25 301.95 355.25 302.55 355.25 302.6 356.05 308.15
+    356.85 312.7 357.55 313.5 357.6 313.8 358.6 314.45 359.95 315.35 361.55 315.35
+    363.7 315.35 364.7 314.5 365.3 313.95 365.4 313.3 365.75 312.9 366 311.25 Z"/>
+
+    </g>
+
+    </defs>
+
+
+    <g transform="matrix( 1, 0, 0, 1, 0,0) ">
+
+    <use xlink:href="#Layer49_0_FILL"/>
+
+    </g>
+
+    </svg>
+
+'
+  assetBundleName: 
+  assetBundleVariant: 

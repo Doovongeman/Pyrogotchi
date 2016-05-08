@@ -24,7 +24,7 @@ public class LifeBar : MonoBehaviour {
 	public void ShowLifebar(GameObject obj)
 	{
 		float objectSize = obj.GetComponentInChildren<Renderer> ().bounds.size.y;
-		transform.position = new Vector3 (fire.transform.position.x, fire.transform.position.y + objectSize + 0.5f, -5);
+		transform.position = new Vector3 (fire.transform.position.x, fire.transform.position.y + objectSize + 0.5f, -9);
 		transform.DOMoveY (transform.position.y + 1, 1f).SetEase (Ease.OutElastic).From();
 	}
 
@@ -32,7 +32,7 @@ public class LifeBar : MonoBehaviour {
 	public void HideLifebar()
 	{
 		filling.transform.localScale = new Vector3 (0, 1, 1);
-		transform.position = new Vector3 (-100, -100, -5);
+		transform.position = new Vector3 (-100, -100, -9);
 	}
 
 

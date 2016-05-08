@@ -14,12 +14,17 @@ public class BurnableObject : MonoBehaviour {
 
 	private GameObject fire;
 	private float contributeBackup;
+	private Transform outline;
+	private Transform regularShape;
+	private BlockDragEvents bde;
 
 
 	void Start () {
 		fire = GameObject.Find ("Fire");
 		size = GetComponentInChildren<Renderer> ().bounds.size.y;
-
+		outline = gameObject.transform.GetChild(2);
+		regularShape = gameObject.transform.GetChild(0);
+		bde = GetComponent<BlockDragEvents> ();
 		contributeBackup = contribute;
 	}
 
@@ -42,6 +47,13 @@ public class BurnableObject : MonoBehaviour {
 		yield return new WaitForSeconds(contributeTimer);
 		fire.GetComponent<Fire>().StopGrowing(contribute * 0.5f);
 
+		//switch to orange business
+		//move orange business in front of fire behind outline
+		outline.gameObject.SetActive(false);
+		//switch to orange frame
+		regularShape.gameObject.SetActive(false);
+		//move in front
+		transform.position = new Vector3(transform.position.x, transform.position.y, bde.infrontofFire);
 		fire.GetComponent<Fire>().StartGrowing(sustain * 0.5f);
 		yield return new WaitForSeconds(sustainTimer);
 		fire.GetComponent<Fire>().StopGrowing(sustain * 0.5f);

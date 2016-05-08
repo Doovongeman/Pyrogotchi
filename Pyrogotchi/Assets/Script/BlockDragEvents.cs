@@ -14,6 +14,10 @@ public class BlockDragEvents : MonoBehaviour {
 	private GameObject fire;
 	private bool overTheFire = false;
 
+	//z values
+	public float behindFire;
+	public float infrontofFire;
+
 	void Start() {
 		//I set the kinematic thing to true by default so that pulling an object over 
 		//another object doesn't make them collide with each other
@@ -21,6 +25,8 @@ public class BlockDragEvents : MonoBehaviour {
 		rb2d.isKinematic = true;
 		sb = transform.GetComponent<SnapBack> ();
 		burnableObject = transform.GetComponent<BurnableObject> ();
+		behindFire = 1.28f;
+		infrontofFire = 0.62f;
 
 		fire = GameObject.Find ("Fire");
 	}
@@ -32,7 +38,7 @@ public class BlockDragEvents : MonoBehaviour {
 		{
 			isDragging = true;
 			rb2d.isKinematic = false;
-			transform.localScale = new Vector2 (1, 1);
+			transform.localScale = new Vector3(1,1,1);
 			bounce (1f);
 		}
     }
@@ -44,7 +50,6 @@ public class BlockDragEvents : MonoBehaviour {
 		{
 			isDragging = false;
 			rb2d.isKinematic = true;
-
 			CheckIfInTheFire ();
 		}
 
@@ -56,7 +61,9 @@ public class BlockDragEvents : MonoBehaviour {
 		if (overTheFire)
 		{
 			burnableObject.StartBurning ();
-			GoToPosition(fire.transform.position, 0.2f);
+			//GoToPosition(fire.transform.position, 0.2f);
+			//move behind fire, while outline stays in front
+			GoToPosition(new Vector3(fire.transform.position.x, fire.transform.position.y, behindFire), 0.2f);
 			bounce (1.2f);
 		} else
 		{
@@ -100,9 +107,11 @@ public class BlockDragEvents : MonoBehaviour {
 	}
 
 
-	private void GoToPosition(Vector2 target, float time)
+	private void GoToPosition(Vector3 target, float time)
 	{
-		transform.DOMove (target, time).SetEase(Ease.OutExpo);
+		transform.position = new Vector3 (transform.position.x, transform.position.y, target.z);
+		transform.DOMoveY (target.y, time).SetEase(Ease.OutExpo);
+		transform.DOMoveX (target.x, time).SetEase(Ease.OutExpo);
 	}
 
 

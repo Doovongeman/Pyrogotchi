@@ -39,7 +39,7 @@ public class BlockDragEvents : MonoBehaviour {
 	void OnStartDrag()
     {
 		//push forward
-		GoToPosition(new Vector3(transform.position.x, transform.position.y, infrontofFace), 0.2f);
+		transform.position = new Vector3(transform.position.x, transform.position.y, infrontofFace);
 		if (! burnableObject.burning)
 		{
 			isDragging = true;

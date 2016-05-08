@@ -5,6 +5,7 @@ using DG.Tweening;
 public class Fire : MonoBehaviour {
 
 	public float decayRate;
+
 	public float size;
 	public bool firstObjectBurned = false;
 	public bool currentlyBurningSomething = false;
@@ -21,6 +22,7 @@ public class Fire : MonoBehaviour {
 	private GameObject face_gimme;
 	private GameObject face_bad;
 	private GameObject heat;
+	private float originalDecayRate;
 
 	void Start()
 	{
@@ -43,6 +45,8 @@ public class Fire : MonoBehaviour {
 		heat.gameObject.SetActive(false);
 
 		decayRate = -0.5f;
+		originalDecayRate = decayRate;
+
 		ChangeFace ("fire_face_normal");
 	}
 
@@ -78,6 +82,11 @@ public class Fire : MonoBehaviour {
 		}
 		decayRate += contribution;
 		ChangeFace ("fire_face_eating");
+
+		if(decayRate < originalDecayRate)
+		{
+			ChangeFace ("fire_face_bad");
+		}
 	}
 
 
@@ -85,6 +94,11 @@ public class Fire : MonoBehaviour {
 	{
 		decayRate -= contribution;
 		ChangeFace ("fire_face_normal");
+
+		if(decayRate >= originalDecayRate)
+		{
+			ChangeFace ("fire_face_normal");
+		}
 	}
 
 

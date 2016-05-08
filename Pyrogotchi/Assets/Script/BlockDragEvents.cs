@@ -41,6 +41,10 @@ public class BlockDragEvents : MonoBehaviour {
 			transform.localScale = new Vector3(1,1,1);
 			bounce (1f);
 		}
+		if (fire.GetComponent<Fire> ().currentlyBurningSomething == true)
+		{
+
+		}
     }
 
 
@@ -58,7 +62,7 @@ public class BlockDragEvents : MonoBehaviour {
 
 	private void CheckIfInTheFire()
 	{
-		if (overTheFire)
+		if (overTheFire &&  fire.GetComponent<Fire> ().currentlyBurningSomething == false)
 		{
 			burnableObject.StartBurning ();
 			//GoToPosition(fire.transform.position, 0.2f);
@@ -102,6 +106,7 @@ public class BlockDragEvents : MonoBehaviour {
 
 	public void bounce(float amount)
 	{
+
 		transform.DOScaleY (1.3f * amount, 0.5f).SetEase (Ease.OutElastic).From ();
 		transform.DOScaleX (0.8f * amount, 0.5f).SetEase (Ease.OutElastic).From ();
 	}

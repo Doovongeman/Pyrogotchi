@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SVGImporter;
+using DG.Tweening;
 
 public class BurnableObject : MonoBehaviour {
 
@@ -13,6 +14,7 @@ public class BurnableObject : MonoBehaviour {
 	public bool burning = false;
 
 	private GameObject fire;
+	private GameObject lifebar;
 	private float contributeBackup;
 	private Transform outline;
 	private Transform regularShape;
@@ -21,6 +23,8 @@ public class BurnableObject : MonoBehaviour {
 
 	void Start () {
 		fire = GameObject.Find ("Fire");
+		lifebar = GameObject.Find ("LifeBar");
+
 		size = GetComponentInChildren<Renderer> ().bounds.size.y;
 		outline = gameObject.transform.GetChild(2);
 		regularShape = gameObject.transform.GetChild(0);
@@ -43,8 +47,13 @@ public class BurnableObject : MonoBehaviour {
 
 	IEnumerator Burn()
 	{
+		lifebar.GetComponent<LifeBar>().ShowLifebar(gameObject);
+		lifebar.GetComponent<LifeBar> ().FillLifebar (contributeTimer);
+
 		fire.GetComponent<Fire>().StartGrowing(contribute * 0.5f);
+		fire.GetComponent<Fire> ().currentlyBurningSomething = true;
 		yield return new WaitForSeconds(contributeTimer);
+		lifebar.GetComponent<LifeBar>().HideLifebar();
 		fire.GetComponent<Fire>().StopGrowing(contribute * 0.5f);
 
 		//switch to orange business
@@ -54,18 +63,23 @@ public class BurnableObject : MonoBehaviour {
 		regularShape.gameObject.SetActive(false);
 		//move in front
 		transform.position = new Vector3(transform.position.x, transform.position.y, bde.infrontofFire);
+		fire.GetComponent<Fire> ().currentlyBurningSomething = false;
+		SustainShrink (sustainTimer);
 		fire.GetComponent<Fire>().StartGrowing(sustain * 0.5f);
 		yield return new WaitForSeconds(sustainTimer);
 		fire.GetComponent<Fire>().StopGrowing(sustain * 0.5f);
 
-		Die ();
+		//Die ();
 	}
+
+
+
 
 
 
 	private void CheckIfTooBig()
 	{
-		if(size > fire.GetComponent<Fire>().GetSize() + fire.GetComponent<Fire>().GetSize() * 0.1f)
+		if(size > fire.GetComponent<Fire>().GetSize() + fire.GetComponent<Fire>().GetSize() * 0.2f)
 		{
 			contributeBackup = contribute;
 
@@ -95,5 +109,11 @@ public class BurnableObject : MonoBehaviour {
 		Destroy (gameObject);
 	}
 
+
+	private void SustainShrink(float time)
+	{
+		transform.DOScaleX (0, time).OnComplete(Die);
+		transform.DOScaleY (0, time);
+	}
 
 }

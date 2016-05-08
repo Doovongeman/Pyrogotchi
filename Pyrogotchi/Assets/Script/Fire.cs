@@ -7,6 +7,7 @@ public class Fire : MonoBehaviour {
 	public float decayRate;
 	public float size;
 	public bool firstObjectBurned = false;
+	public bool currentlyBurningSomething = false;
 
 	private bool shouldDecay = true;
 
@@ -81,7 +82,6 @@ public class Fire : MonoBehaviour {
 		size = GetComponent<Collider2D> ().bounds.size.y;
 		return size;
 	}
-
 
 
 

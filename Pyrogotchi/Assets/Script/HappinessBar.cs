@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class HappinessBar : MonoBehaviour {
 
-	public float score;
+	public static float score;
+	public static float highscore;
 
 	private GameObject happinessfilling;
 	private GameObject face0;

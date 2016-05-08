@@ -8,9 +8,9 @@ public class BurnableObject : MonoBehaviour {
 	public float contribute;
 
 	public float contributeTimer = 5f;	// In seconds
-	public float sustain;
-	public float sustainTimer;
-	public float size;
+	private float sustain;
+	private float sustainTimer;
+	private float size;
 	public float toxicity;
 	public bool burning = false;
 

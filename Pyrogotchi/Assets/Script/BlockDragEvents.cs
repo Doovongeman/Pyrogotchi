@@ -17,6 +17,8 @@ public class BlockDragEvents : MonoBehaviour {
 	//z values
 	public float behindFire;
 	public float infrontofFire;
+	public float infrontofFace;
+	private float infrontofObjects;
 
 	void Start() {
 		//I set the kinematic thing to true by default so that pulling an object over 
@@ -27,6 +29,8 @@ public class BlockDragEvents : MonoBehaviour {
 		burnableObject = transform.GetComponent<BurnableObject> ();
 		behindFire = 1.14f;//1.28f;
 		infrontofFire = 0.62f;
+		infrontofFace = -2.0f;
+		infrontofObjects = -0.1f;
 
 		fire = GameObject.Find ("Fire");
 	}
@@ -34,6 +38,8 @@ public class BlockDragEvents : MonoBehaviour {
 
 	void OnStartDrag()
     {
+		//push forward
+		GoToPosition(new Vector3(transform.position.x, transform.position.y, infrontofFace), 0.2f);
 		if (! burnableObject.burning)
 		{
 			isDragging = true;
@@ -68,7 +74,7 @@ public class BlockDragEvents : MonoBehaviour {
 			burnableObject.StartBurning ();
 			//GoToPosition(fire.transform.position, 0.2f);
 			//move behind fire, while outline stays in front
-			GoToPosition(new Vector3(fire.transform.position.x, fire.transform.position.y, behindFire), 0.2f);
+			GoToPosition(new Vector3(fire.transform.position.x, fire.transform.position.y, infrontofObjects), 0.2f);
 			bounce (1.2f);
 		} else
 		{
